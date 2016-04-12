@@ -10,148 +10,173 @@
     tools:context="com.hillygeeks.tictac.MainActivity">
 
     <LinearLayout
-        android:orientation="vertical"
+        android:id="@+id/baselayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="false"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/baselayout"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical"
         android:weightSum="1">
 
         <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="234dp"
-            android:background="#c5e4e1"
-            android:orientation="vertical"
             android:id="@+id/gameboard"
-            android:layout_weight="0.90"
-            android:stretchColumns="0,1,2">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#818181"
+            android:orientation="vertical"
+            android:layout_weight="0.15">
 
             <TableRow
+                android:id="@+id/tableRow1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="0.20"
-                android:id="@+id/tablerow1">
+                android:layout_weight="1">
+
 
                 <ImageButton
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/btn_box1"
-                    android:layout_column="0"
+                    android:src="@drawable/close"
+                    android:padding="15dp"
+                    android:scaleType="fitCenter"
                     android:layout_weight="1"
-                    android:background="@drawable/circle"
-                    android:scaleType="center"
-                    android:longClickable="true" />
+                    android:id="@+id/btn_box1" />
 
                 <ImageButton
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/btn_box2"
-                    android:layout_weight="1" />
-
-                <ImageButton
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/btn_box3"
+                    android:src="@drawable/close"
+                    android:padding="15dp"
+                    android:scaleType="fitCenter"
                     android:layout_weight="1"
-                    android:background="@drawable/close" />
+                    android:id="@+id/btn_box2" />
+
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/circle"
+                    android:padding="15dp"
+                    android:scaleType="fitCenter"
+                    android:layout_weight="1"
+                    android:id="@+id/btn_box3" />
+
+
             </TableRow>
 
             <TableRow
+                android:id="@+id/tableRow2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="0.20"
-                android:id="@+id/tablerow2">
+                android:layout_weight="1">
 
                 <ImageButton
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/btn_box4"
-                    android:layout_column="0"
-                    android:layout_weight="1" />
+                    android:src="@drawable/circle"
+                    android:padding="15dp"
+                    android:scaleType="fitCenter"
+                    android:layout_weight="1"
+                    android:id="@+id/btn_box4" />
 
                 <ImageButton
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/btn_box5"
-                    android:layout_weight="1" />
+                    android:src="@drawable/circle"
+                    android:padding="15dp"
+                    android:scaleType="fitCenter"
+                    android:layout_weight="1"
+                    android:id="@+id/btn_box5" />
 
                 <ImageButton
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/btn_box6"
-                    android:layout_weight="1" />
+                    android:src="@drawable/close"
+                    android:padding="15dp"
+                    android:scaleType="fitCenter"
+                    android:layout_weight="1"
+                    android:id="@+id/btn_box6" />
             </TableRow>
 
             <TableRow
+                android:id="@+id/tableRow3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="0.20"
-                android:id="@+id/tablerow3">
+                android:layout_weight="1">
 
                 <ImageButton
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/btn_box7"
-                    android:layout_column="0"
-                    android:layout_weight="1" />
+                    android:src="@drawable/circle"
+                    android:padding="15dp"
+                    android:scaleType="fitCenter"
+                    android:layout_weight="1"
+                    android:id="@+id/btn_box7" />
 
                 <ImageButton
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/btn_box8"
-                    android:layout_weight="1" />
+                    android:src="@drawable/close"
+                    android:padding="15dp"
+                    android:scaleType="fitCenter"
+                    android:layout_weight="1"
+                    android:id="@+id/btn_box8" />
 
                 <ImageButton
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/btn_box9"
-                    android:layout_weight="1" />
+                    android:src="@drawable/circle"
+                    android:padding="15dp"
+                    android:scaleType="fitCenter"
+                    android:layout_weight="1"
+                    android:id="@+id/btn_box9" />
             </TableRow>
+
         </TableLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/playerdetails"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.85"
             android:background="#a1a1a1"
-            android:layout_weight="0.20">
+            android:orientation="horizontal">
 
-            <TableLayout
+            <TableRow
+                android:id="@+id/tableRow"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
-                <TableRow
+                <ImageButton
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:src="@drawable/phone"
+                    android:padding="15dp"
+                    android:scaleType="fitCenter"
                     android:layout_weight="1"
-                    android:id="@+id/tableRow">
+                    android:id="@+id/btn_phone" />
 
-                    <ImageButton
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:id="@+id/btn_robotplay"
-                        android:layout_column="0"
-                        android:layout_weight="1"
-                        android:background="@drawable/phone"
-                        android:scaleType="fitCenter" />
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/circle"
+                    android:padding="15dp"
+                    android:scaleType="fitCenter"
+                    android:layout_weight="1"
+                    android:id="@+id/btn_msg" />
 
-                    <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:id="@+id/btn_msg"
-                        android:layout_weight="1" />
-
-                    <ImageButton
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:id="@+id/btn_userplay"
-                        android:layout_weight="1"
-                        android:background="@drawable/user" />
-                </TableRow>
-            </TableLayout>
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/user"
+                    android:padding="15dp"
+                    android:scaleType="fitCenter"
+                    android:layout_weight="1"
+                    android:id="@+id/btn_user" />
+            </TableRow>
         </LinearLayout>
+
     </LinearLayout>
 </RelativeLayout>
