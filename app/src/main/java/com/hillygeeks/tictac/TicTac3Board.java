@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Created by User on 13/4/2016.
+ * Created by Max on 13/4/2016.
  */
 public class TicTac3Board {
 
