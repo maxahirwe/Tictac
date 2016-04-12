@@ -9,8 +9,174 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.hillygeeks.tictac.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
+    <LinearLayout
+        android:id="@+id/baselayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical"
+        android:weightSum="1">
+
+        <TableLayout
+            android:id="@+id/gameboard"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#818181"
+            android:orientation="vertical"
+            android:layout_weight="0.15">
+
+            <TableRow
+                android:id="@+id/tableRow1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/close"
+                    android:padding="15dp"
+                    android:scaleType="fitCenter"
+                    android:layout_weight="1"
+                    android:id="@+id/btn_box1" />
+
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/close"
+                    android:padding="15dp"
+                    android:scaleType="fitCenter"
+                    android:layout_weight="1"
+                    android:id="@+id/btn_box2" />
+
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/circle"
+                    android:padding="15dp"
+                    android:scaleType="fitCenter"
+                    android:layout_weight="1"
+                    android:id="@+id/btn_box3" />
+
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tableRow2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/circle"
+                    android:padding="15dp"
+                    android:scaleType="fitCenter"
+                    android:layout_weight="1"
+                    android:id="@+id/btn_box4" />
+
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/circle"
+                    android:padding="15dp"
+                    android:scaleType="fitCenter"
+                    android:layout_weight="1"
+                    android:id="@+id/btn_box5" />
+
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/close"
+                    android:padding="15dp"
+                    android:scaleType="fitCenter"
+                    android:layout_weight="1"
+                    android:id="@+id/btn_box6" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tableRow3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/circle"
+                    android:padding="15dp"
+                    android:scaleType="fitCenter"
+                    android:layout_weight="1"
+                    android:id="@+id/btn_box7" />
+
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/close"
+                    android:padding="15dp"
+                    android:scaleType="fitCenter"
+                    android:layout_weight="1"
+                    android:id="@+id/btn_box8" />
+
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/circle"
+                    android:padding="15dp"
+                    android:scaleType="fitCenter"
+                    android:layout_weight="1"
+                    android:id="@+id/btn_box9" />
+            </TableRow>
+
+        </TableLayout>
+
+        <LinearLayout
+            android:id="@+id/playerdetails"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.85"
+            android:background="#a1a1a1"
+            android:orientation="horizontal">
+
+            <TableRow
+                android:id="@+id/tableRow"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/phone"
+                    android:padding="15dp"
+                    android:scaleType="fitCenter"
+                    android:layout_weight="1"
+                    android:id="@+id/btn_phone" />
+
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/circle"
+                    android:padding="15dp"
+                    android:scaleType="fitCenter"
+                    android:layout_weight="1"
+                    android:id="@+id/btn_msg" />
+
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/user"
+                    android:padding="15dp"
+                    android:scaleType="fitCenter"
+                    android:layout_weight="1"
+                    android:id="@+id/btn_user" />
+            </TableRow>
+        </LinearLayout>
+
+    </LinearLayout>
 </RelativeLayout>
