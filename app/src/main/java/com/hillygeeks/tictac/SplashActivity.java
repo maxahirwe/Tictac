@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 
 /**
  * Created by max on 12/4/2016.
- * <p/>
  * represents the splash screen that will display a logo and launch the main game activity
  */
 public class SplashActivity extends AppCompatActivity {
