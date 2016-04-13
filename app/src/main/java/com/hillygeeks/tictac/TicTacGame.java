@@ -16,20 +16,5 @@ public class TicTacGame {
 
     }
 
-//    /**
-//     * make moves accross on the board
-//     */
-//    public boolean makemove(int slotnumber, int playerID) {
-//        return Board.FillSlot(slotnumber, playerID);
-//    }
-//
-//    /**
-//     * make the first pc move if initiated
-//     * @return
-//     */
-//    public int PCmakeFirstmove(){
-//       return Board.MakeFirstPCRandomMove();
-//    }
-
 
 }
