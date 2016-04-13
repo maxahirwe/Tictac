@@ -1,9 +1,8 @@
-
 package com.hillygeeks.tictac;
 
 /**
  * Created by Max Ahirwe on 12/4/2016.
- * this class represents a tic tac game 
+ * this class represents a tic tac game of 3*3
  */
 public class TicTacGame {
 
@@ -16,21 +15,6 @@ public class TicTacGame {
         Board = new TicTac3Board();
 
     }
-
-//    /**
-//     * make moves accross on the board
-//     */
-//    public boolean makemove(int slotnumber, int playerID) {
-//        return Board.FillSlot(slotnumber, playerID);
-//    }
-//
-//    /**
-//     * make the first pc move if initiated
-//     * @return
-//     */
-//    public int PCmakeFirstmove(){
-//       return Board.MakeFirstPCRandomMove();
-//    }
 
 
 }
