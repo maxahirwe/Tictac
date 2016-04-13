@@ -14,9 +14,9 @@ public class TicTac3Board {
     TicTac3ArrayList<slot> slots;
     static private Random randomizer = new Random();
 
-    static int PcPlayerID = 1;
-    static int HumanPlayerID = 2;
-    static int Lastmoveplayer;
+    static public int PcPlayerID = 1;
+    static public int HumanPlayerID = 2;
+    static public int Lastmoveplayer = 0;
 
 
     public TicTac3Board() {
@@ -33,14 +33,13 @@ public class TicTac3Board {
 
     /**
      * fill the TicTacToe board slots
-     *
      * @param slotnumber
      * @return true if the game is Finished or False if its still continuous
      */
 
     public boolean FillSlot(int slotnumber, int player) {
 
-
+        String playername = player == 1 ? "Computer" : "Human";
         //reduce 1 since arraylist indexing start from 0
         slotnumber -= 1;
         //first get the requested slo
@@ -53,13 +52,11 @@ public class TicTac3Board {
         if (!slot.isOccupied()) {
             slot.setOccupant(new Integer(player));
             Lastmoveplayer = player;
+            Log.v("move", "Player:" + playername + " move to slot(" + (slotnumber + 1) + ") Succeeded");
+            return true;
 
-            //if condition when human plays then let artificial intelligence do its job
-
-
-        return true;
         } else {
-
+            Log.v("move", "Player:" + playername + " move to slot(" + (slotnumber + 1) + ") Failed");
             return false;
         }
     }
@@ -67,19 +64,62 @@ public class TicTac3Board {
     /**
      * function make the first pc automated move
      */
-    public void MakeFirstPCRandomMove() {
+    public int MakeFirstPCRandomMove() {
+        int Randomslot = Randomslot();
+        //make the move,2 means its the pc playing Lastmoveplayer=null &&
+        if (this.FillSlot(Randomslot, 1)) {
+            Lastmoveplayer = 1;
+            return Randomslot;
+
+        } else {
+            return 0;
+        }
+    }
+
+
+    /**
+     * Artificial Intelligence core heart of the game
+     */
+    public int PcFillslot() {
+        int Randomslot = Randomslot();
+        boolean isBoardfull = isBoardFull();
+
+        //if the game board is not full keep looping until random slot is free ,fill it and quit the loop and return the slot number
+        while (!isBoardfull) {
+            if (this.FillSlot(Randomslot, 1)) {
+                return Randomslot;
+            }
+            Randomslot = Randomslot();
+        }
+        return Randomslot;
+    }
+
+    /**
+     * @return true id board is full and false if it's not
+     */
+    public boolean isBoardFull() {
+
+        for (slot s : slots) {
+            //if one of the slots is empty means there is still an empty slot
+            if (!s.isOccupied()) {
+                return false;
+            }
+        }
+        return true;
+
+    }
+
+    /**
+     * Randomize a number between 1-9
+     */
+    public int Randomslot() {
         Integer min = new Integer(1);
-        Integer max = new Integer(2);
+        Integer max = new Integer(9);
         // nextInt is normally exclusive of the top value,
         // so add 1 to make it inclusive
-        int Randomslot = randomizer.nextInt((max - min) + 1) + min;
+        int RandomSlot = randomizer.nextInt((max - min) + 1) + min;
 
-
-        //make the move,2 means its the pc playing
-        this.FillSlot(Randomslot, 2);
-
-
-
+        return RandomSlot;
     }
 
     /**
@@ -93,7 +133,6 @@ public class TicTac3Board {
         }
 
     }
-
 
 
 }
