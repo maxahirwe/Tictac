@@ -175,17 +175,19 @@
                     android:padding="15dp"
                     android:scaleType="fitCenter"
                     android:layout_weight="1"
-                    android:id="@+id/btn_phone" />
+                    android:id="@+id/btn_phone"
+                    android:onClick="Playclick" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="Go,Play"
+                    android:text="Choose First Player"
                     android:gravity="center"
                     android:id="@+id/msgtxt"
                     android:layout_weight="1"
                     android:textColor="#ffffff"
-                    android:textSize="18sp" />
+                    android:textSize="19sp"
+                    android:textAlignment="center" />
 
                 <ImageButton
                     android:layout_width="match_parent"
@@ -194,7 +196,8 @@
                     android:padding="15dp"
                     android:scaleType="fitCenter"
                     android:layout_weight="1"
-                    android:id="@+id/btn_user" />
+                    android:id="@+id/btn_user"
+                    android:onClick="Playclick" />
 
             </TableRow>
         </LinearLayout>
