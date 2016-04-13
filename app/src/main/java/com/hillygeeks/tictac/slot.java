@@ -49,4 +49,8 @@ public class slot {
     }
 
 
+    @Override
+    public String toString() {
+        return "slot{" + "Occupant=" + Occupant + '}';
+    }
 }

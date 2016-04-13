@@ -1,5 +1,6 @@
 package com.hillygeeks.tictac;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -39,20 +41,29 @@ public class MainActivity extends AppCompatActivity {
             int slot = Integer.valueOf(Buttontag);
             Log.v("slotclicking", " slot cliked:" + slot);
 
-            //Try making the move if it goes through then show the move on screen
-            if (Game.Board.Lastmoveplayer != 2 && Game.Board.FillSlot(slot, 2)) {
+            //Try making the move if it the player is playing at his turn and the game board is not full
+            if (!Game.Board.isBoardFull()) {
+                if (Game.Board.FillSlot(slot, 2)) {
                 ImageButton Btn = (ImageButton) SlotButton;
                 Btn.setImageResource(R.drawable.circle);
-                //trigger the pc to play
+                    //Trigger the pc to play
                 int pcmove = Game.Board.PcFillslot();
-                ButtonImageSet(pcmove, R.drawable.close);
+                    //check if the pc move went throuh and was done
+                    if (pcmove != -1) {
+                        ButtonImageSet(pcmove, R.drawable.close);
+                    }
+                    // Game.Board.Lastmoveplayer=1;
 
 
+                }
+            } else {
+                Toast.makeText(this, "Hey,Chill..Just start a new game", Toast.LENGTH_SHORT).show();
+                Log.v("Gamestatus:", "Board Full");
             }
 
         } else {
-            Log.v("Gamestatus:", "Not started");
-            Toast.makeText(this, "Hey,Chill..First Select who plays firsts from the buttons at the bottom", Toast.LENGTH_SHORT).show();
+            Log.v("GameStatus:", "Not Started.");
+            Toast.makeText(this, "Hey,Chill..First Select who plays first from the buttons at the bottom", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -64,13 +75,23 @@ public class MainActivity extends AppCompatActivity {
      * @param PlayButton
      */
     public void Playclick(View PlayButton) {
+        final Context ctx = getApplicationContext();
         //clear out the view
         this.clearlayout();
         ImageButton Button = (ImageButton) PlayButton;
 
+        final TextView txtmsg = (TextView) findViewById(R.id.msgtxt);
+
         Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                //if the user was playing a game before then print all the slots details
+                if (Game != null) {
+                    Log.v("Last player:", Game.Board.Lastmoveplayer == 1 ? "Computer" : "Human");
+                    Log.v("GameStatus:", "Finishing,Print Slots Data");
+                    Game.Board.SlotsDataPrint();
+                }
 
                 switch (v.getId()) {
                     case R.id.btn_user: {
@@ -78,6 +99,9 @@ public class MainActivity extends AppCompatActivity {
                         Log.v("1stPlayer:", "USER");
                         Game = new TicTacGame();
                         clearlayout();
+                        Toast.makeText(ctx, "You Start!", Toast.LENGTH_SHORT).show();
+                        txtmsg.setText("Go,Play");
+
                         break;
                     }
 
@@ -86,9 +110,13 @@ public class MainActivity extends AppCompatActivity {
                         Log.v("1stPlayer:", "COMPUTER");
                         Game = new TicTacGame();
                         clearlayout();
+                        Toast.makeText(ctx, "I Start!", Toast.LENGTH_SHORT).show();
+                        txtmsg.setText("Go,Play");
                         //play the first move and mark the slot on the GUI
                         int btn_slotid = Game.Board.MakeFirstPCRandomMove();
-                        ButtonImageSet(btn_slotid, R.drawable.close);
+                        if (btn_slotid != -1) {
+                            ButtonImageSet(btn_slotid, R.drawable.close);
+                        }
                         break;
                     }
                 }

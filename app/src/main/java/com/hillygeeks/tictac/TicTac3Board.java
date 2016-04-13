@@ -23,12 +23,13 @@ public class TicTac3Board {
         //Instantiate the game slots
         slots = new TicTac3ArrayList<slot>();
         //fill the TicTac3ArrayList with empty slots
-        for (int i = 1; i < 10; i++) {
-            slots.add(new slot());
-            Log.v("slots creation", "slot created" + i);
+        for (int i = 0; i < 9; i++) {
+            slot newslot = new slot();
+            slots.add(newslot);
+            Log.v("slotdata", "Slot(" + (i + 1) + ") " + newslot.toString());
         }
 
-        Log.v("Slots size=>", String.valueOf(slots.size()));
+        Log.v("Slots size:", String.valueOf(slots.size()));
     }
 
     /**
@@ -52,13 +53,19 @@ public class TicTac3Board {
         if (!slot.isOccupied()) {
             slot.setOccupant(new Integer(player));
             Lastmoveplayer = player;
+
             Log.v("move", "Player:" + playername + " move to slot(" + (slotnumber + 1) + ") Succeeded");
+            Log.v("slotdata", "Slot(" + (slotnumber + 1) + ") " + slot.toString());
             return true;
 
         } else {
+
             Log.v("move", "Player:" + playername + " move to slot(" + (slotnumber + 1) + ") Failed");
+            Log.v("slotdata", "Slot(" + (slotnumber + 1) + ") " + slot.toString());
             return false;
         }
+
+
     }
 
     /**
@@ -72,7 +79,7 @@ public class TicTac3Board {
             return Randomslot;
 
         } else {
-            return 0;
+            return -1;
         }
     }
 
@@ -87,11 +94,12 @@ public class TicTac3Board {
         //if the game board is not full keep looping until random slot is free ,fill it and quit the loop and return the slot number
         while (!isBoardfull) {
             if (this.FillSlot(Randomslot, 1)) {
+                Lastmoveplayer = 1;
                 return Randomslot;
             }
             Randomslot = Randomslot();
         }
-        return Randomslot;
+        return -1;
     }
 
     /**
@@ -128,8 +136,21 @@ public class TicTac3Board {
     public void clear() {
 
         slots.clear();
-        for (int i = 1; i < 10; i++) {
+        for (int i = 0; i < 9; i++) {
             slots.add(new slot());
+        }
+
+    }
+
+
+    /**
+     * print all slots data
+     */
+    public void SlotsDataPrint() {
+
+        for (int i = 0; i < 9; i++) {
+            slot slot = slots.get(i);
+            Log.v("slotdata", "Slot(" + (i + 1) + ") " + slot.toString());
         }
 
     }
