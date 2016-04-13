@@ -24,7 +24,7 @@
             android:id="@+id/gameboard"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#818181"
+            android:background="#688284"
             android:orientation="vertical"
             android:layout_weight="0.15">
 
@@ -38,29 +38,35 @@
                 <ImageButton
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/close"
                     android:padding="15dp"
                     android:scaleType="fitCenter"
                     android:layout_weight="1"
-                    android:id="@+id/btn_box1" />
+                    android:id="@+id/btn_slot1"
+                    android:tag="1"
+                    android:onClick="Slotclick"
+                    android:src="@drawable/empty" />
 
                 <ImageButton
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/close"
                     android:padding="15dp"
                     android:scaleType="fitCenter"
                     android:layout_weight="1"
-                    android:id="@+id/btn_box2" />
+                    android:id="@+id/btn_slot2"
+                    android:tag="2"
+                    android:onClick="Slotclick"
+                    android:src="@drawable/empty" />
 
                 <ImageButton
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/circle"
                     android:padding="15dp"
                     android:scaleType="fitCenter"
                     android:layout_weight="1"
-                    android:id="@+id/btn_box3" />
+                    android:id="@+id/btn_slot3"
+                    android:tag="3"
+                    android:onClick="Slotclick"
+                    android:src="@drawable/empty" />
 
 
             </TableRow>
@@ -74,29 +80,35 @@
                 <ImageButton
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/circle"
                     android:padding="15dp"
                     android:scaleType="fitCenter"
                     android:layout_weight="1"
-                    android:id="@+id/btn_box4" />
+                    android:id="@+id/btn_slot4"
+                    android:tag="4"
+                    android:onClick="Slotclick"
+                    android:src="@drawable/empty" />
 
                 <ImageButton
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/circle"
                     android:padding="15dp"
                     android:scaleType="fitCenter"
                     android:layout_weight="1"
-                    android:id="@+id/btn_box5" />
+                    android:id="@+id/btn_slot5"
+                    android:tag="5"
+                    android:onClick="Slotclick"
+                    android:src="@drawable/empty" />
 
                 <ImageButton
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/close"
                     android:padding="15dp"
                     android:scaleType="fitCenter"
                     android:layout_weight="1"
-                    android:id="@+id/btn_box6" />
+                    android:id="@+id/btn_slot6"
+                    android:tag="6"
+                    android:onClick="Slotclick"
+                    android:src="@drawable/empty" />
             </TableRow>
 
             <TableRow
@@ -108,29 +120,35 @@
                 <ImageButton
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/circle"
                     android:padding="15dp"
                     android:scaleType="fitCenter"
                     android:layout_weight="1"
-                    android:id="@+id/btn_box7" />
+                    android:id="@+id/btn_slot7"
+                    android:tag="7"
+                    android:onClick="Slotclick"
+                    android:src="@drawable/empty" />
 
                 <ImageButton
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/close"
                     android:padding="15dp"
                     android:scaleType="fitCenter"
                     android:layout_weight="1"
-                    android:id="@+id/btn_box8" />
+                    android:id="@+id/btn_slot8"
+                    android:tag="8"
+                    android:onClick="Slotclick"
+                    android:src="@drawable/empty" />
 
                 <ImageButton
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/circle"
                     android:padding="15dp"
                     android:scaleType="fitCenter"
                     android:layout_weight="1"
-                    android:id="@+id/btn_box9" />
+                    android:id="@+id/btn_slot9"
+                    android:tag="9"
+                    android:onClick="Slotclick"
+                    android:src="@drawable/empty" />
             </TableRow>
 
         </TableLayout>
@@ -140,14 +158,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="0.85"
-            android:background="#a1a1a1"
+            android:background="#000000"
             android:orientation="horizontal">
 
             <TableRow
                 android:id="@+id/tableRow"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="#688284">
 
                 <ImageButton
                     android:layout_width="match_parent"
@@ -158,14 +177,15 @@
                     android:layout_weight="1"
                     android:id="@+id/btn_phone" />
 
-                <ImageButton
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/circle"
-                    android:padding="15dp"
-                    android:scaleType="fitCenter"
+                    android:text="Go,Play"
+                    android:gravity="center"
+                    android:id="@+id/msgtxt"
                     android:layout_weight="1"
-                    android:id="@+id/btn_msg" />
+                    android:textColor="#ffffff"
+                    android:textSize="18sp" />
 
                 <ImageButton
                     android:layout_width="match_parent"
@@ -175,6 +195,7 @@
                     android:scaleType="fitCenter"
                     android:layout_weight="1"
                     android:id="@+id/btn_user" />
+
             </TableRow>
         </LinearLayout>
 

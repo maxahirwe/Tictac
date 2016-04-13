@@ -13,7 +13,7 @@ public class slot {
      * constructor
      */
     public slot() {
-        this.Occupant = new Integer(null);
+        this.Occupant = null;
     }
 
 
@@ -30,7 +30,7 @@ public class slot {
      */
     public boolean isOccupied() {
 
-        if (this.Occupant.equals(null)) {
+        if (this.Occupant == null) {
             return false;
         } else {
             return true;
