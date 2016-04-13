@@ -9,7 +9,7 @@ import android.widget.ImageButton;
 public class MainActivity extends AppCompatActivity {
 
 
-    private TicTacgame game;
+    private TicTacGame game;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
         //initialize game if new
         if (game == null) {
-            game = new TicTacgame(false);
+            game = new TicTacGame(false);
         }
 
         //get the tag(string) of the clicked button
