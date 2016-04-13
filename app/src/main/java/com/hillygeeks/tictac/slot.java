@@ -30,11 +30,7 @@ public class slot {
      */
     public boolean isOccupied() {
 
-        if (this.Occupant == null) {
-            return false;
-        } else {
-            return true;
-        }
+        return this.Occupant != null;
     }
 
     /**

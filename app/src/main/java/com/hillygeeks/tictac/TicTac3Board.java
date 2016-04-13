@@ -52,7 +52,7 @@ public class TicTac3Board {
 
         if (!slot.isOccupied()) {
             slot.setOccupant(new Integer(player));
-            this.Lastmoveplayer = player;
+            Lastmoveplayer = player;
 
             //if condition when human plays then let artificial intelligence do its job
 
