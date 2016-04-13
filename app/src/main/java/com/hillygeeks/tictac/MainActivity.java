@@ -44,10 +44,10 @@ public class MainActivity extends AppCompatActivity {
             //Try making the move if it the player is playing at his turn and the game board is not full
             if (!Game.Board.isBoardFull()) {
                 if (Game.Board.FillSlot(slot, 2)) {
-                ImageButton Btn = (ImageButton) SlotButton;
-                Btn.setImageResource(R.drawable.circle);
+                    ImageButton Btn = (ImageButton) SlotButton;
+                    Btn.setImageResource(R.drawable.circle);
                     //Trigger the pc to play
-                int pcmove = Game.Board.PcFillslot();
+                    int pcmove = Game.Board.PcFillslot();
                     //check if the pc move went throuh and was done
                     if (pcmove != -1) {
                         ButtonImageSet(pcmove, R.drawable.close);
