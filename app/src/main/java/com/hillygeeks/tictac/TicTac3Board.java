@@ -1,6 +1,8 @@
 package com.hillygeeks.tictac;
 
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -12,7 +14,10 @@ public class TicTac3Board {
 
     //represents the 9 slots that comply a 3*3 Tic Tac Toe game
     TicTac3ArrayList<slot> slots;
-
+    //0 done ,1 not done
+    public boolean winmove;
+    public String Winmsg;
+    public winset Winset;
     // virtual slots for different states
     //each state has a possibility either win/draw/lose
     //ArrayList<TicTac3ArrayList<Simulatedslot>> states;
@@ -31,14 +36,6 @@ public class TicTac3Board {
 
 
     public TicTac3Board() {
-        winset set1 = new winset(4, 2, 3);
-        winset set2 = new winset(4, 2, 6);
-
-        Log.v("setchecking:", "true:set1=set2 ?" + String.valueOf(set1.equals(set2)));
-        set2 = new winset(4, 2, 3);
-        Log.v("setchecking:", "false:equal set1=set2 ?" + String.valueOf(set1.equals(set2)));
-
-
         //Instantiate the game slots
         slots = new TicTac3ArrayList<slot>();
         //fill the TicTac3ArrayList with empty slots
@@ -47,18 +44,20 @@ public class TicTac3Board {
             slots.add(newslot);
             Log.v("slotdata", "Slot(" + (i + 1) + ") " + newslot.toString());
         }
-
         Log.v("Slots size:", String.valueOf(slots.size()));
+
+        winmove = false;
     }
 
     /**
      * fill the TicTacToe board slots
+     *
      * @param slotnumber
      * @return true if the game is Finished or False if its still continuous
      */
 
     public boolean FillSlot(int slotnumber, int player) {
-
+        boolean winingmove;
         String playername = player == 1 ? "Computer" : "Human";
         //reduce 1 since arraylist indexing start from 0
         slotnumber -= 1;
@@ -69,30 +68,28 @@ public class TicTac3Board {
         //checks if the user is allow to make this move by making sure he doesn't perform two consecutive moves
         //if(!slot.isOccupied() && this.Lastmoveplayer!=player){
 
-        if (!slot.isOccupied()) {
+        //if slot is not occupied and no player has won yet
+        if (!slot.isOccupied() && !this.winmove) {
             slot.setOccupant(new Integer(player));
-            Lastmoveplayer = player;
+            this.Lastmoveplayer = player;
 
             Log.v("move", "Player:" + playername + " move to slot(" + (slotnumber + 1) + ") Succeeded");
             Log.v("slotdata", "Slot(" + (slotnumber + 1) + ") " + slot.toString());
 
-            //Wining checking
-
+            //Wining checking and update board status
             IsItaWinMove(slotnumber);
-            return true;
 
+            return true;
         } else {
 
             Log.v("move", "Player:" + playername + " move to slot(" + (slotnumber + 1) + ") Failed");
             Log.v("slotdata", "Slot(" + (slotnumber + 1) + ") " + slot.toString());
             return false;
         }
-
-
     }
 
     /**
-     * function make the first pc automated move
+     * method make the first pc automated move
      */
     public int MakeFirstPCRandomMove() {
         int Randomslot = Randomslot();
@@ -108,11 +105,22 @@ public class TicTac3Board {
 
 
     /**
-     *
-     * funtion to be called after each slot is filled to asses if its a winning move
+     * method to be called after each slot is filled to asses if its a winning move
+     *   Possible wins(considering a 3 way vice versa side switch)
+     *   -------------
+     *  n*     Orientation   num    combinations
+     *  1       horizontal    1        123
+     *  2       horizontal    2        456
+     *  3       horizontal    3        789
+     *  4       vertical      1        147
+     *  5       vertical      2        258
+     *  6       vertical      3        369
+     *  7       diagonal      1        159
+     *  8       diagonal      2        357
      */
     public boolean IsItaWinMove(int index) {
 
+        //Possinle wins/
         //1 horizontal 1  123
         //2 horizantal 2  456
         //3 horizantal 2  789
@@ -122,19 +130,15 @@ public class TicTac3Board {
         //7 diagonal 1    159
         //8 diagonal 2    357
 
-
         ArrayList<winset> winsets = new ArrayList<winset>();
-
-        for (int i = 0; i < 9; i++) {
-            winsets.add(new winset(1, 2, 3));
-            winsets.add(new winset(4, 5, 6));
-            winsets.add(new winset(7, 8, 9));
+        winsets.add(new winset(0, 1, 2));
+        winsets.add(new winset(3, 4, 5));
+        winsets.add(new winset(6, 7, 8));
+        winsets.add(new winset(0, 3, 6));
             winsets.add(new winset(1, 4, 7));
             winsets.add(new winset(2, 5, 8));
-            winsets.add(new winset(3, 6, 9));
-            winsets.add(new winset(1, 5, 9));
-            winsets.add(new winset(3, 5, 7));
-        }
+        winsets.add(new winset(0, 4, 8));
+        winsets.add(new winset(2, 4, 6));
 
         ///loop trough all the winsets and identify a match
         for (winset winingset : winsets) {
@@ -149,18 +153,30 @@ public class TicTac3Board {
                         if (this.IsslotfilledByplayer(i, player) && this.IsslotfilledByplayer(x, player)
                                 && this.IsslotfilledByplayer(index, player) && i != index && x != index && x != i) {
 
-                            //add one since stored winsets data starting from 1
+                            winset toCompare1 = new winset(i, x, index);
+                            winset toCompare2 = new winset(x, i, index);
+                            winset toCompare3 = new winset(index, x, i);
+                            winset toCompare4 = new winset(index, i, x);
+                            winset toCompare5 = new winset(i, index, x);
+                            winset toCompare6 = new winset(x, index, i);
 
-                            winset toCompare1 = new winset(i + 1, x + 1, index + 1);
-                            winset toCompare2 = new winset(x + 1, i + 1, index + 1);
-                            winset toCompare3 = new winset(index + 1, x + 1, i + 1);
 
-                            //Log.v("Gamestatus", "combination found ("+toCompare1.toString() +") ("+toCompare2.toString()+") ("+toCompare3.toString() +")  player" +player);
+                            Log.v("Gamestatus", "Player:" + player);
+                            Log.v("Gamestatus", "combination found (" + toCompare1.toString() + ") (" + toCompare2.toString() + ") (" + toCompare3.toString() + ")");
+                            Log.v("Gamestatus", "combination found (" + toCompare4.toString() + ") (" + toCompare5.toString() + ") (" + toCompare6.toString() + ")");
                             //check if its a wining set
-                            if (winingset.equals(toCompare1) || winingset.equals(toCompare2) || winingset.equals(toCompare3)) {
+                            if ((winingset.equals(toCompare1)) | (winingset.equals(toCompare2)) | (winingset.equals(toCompare3)) |
+                                    (winingset.equals(toCompare4)) | (winingset.equals(toCompare5)) | (winingset.equals(toCompare6))
+                                    ) {
                                 Log.v("Gamestatus", "Game won by (" + player + ") on slot (" + (index + 1) + ")");
+                                String Playername = player == 1 ? "Me" : "You";
 
+                                //set win msg and the winset for later use
+                                this.Winmsg = Playername + " Won!";
+                                this.Winset = toCompare1;
+                                this.winmove = true;
                                 return true;
+
 
                             }
                         }
@@ -173,6 +189,10 @@ public class TicTac3Board {
         return false;
 
     }
+
+    /**
+     * checks whether a slot is filled by a certain player at a specific slot
+     */
 
 
     public boolean IsslotfilledByplayer(int index, int player) {
@@ -319,8 +339,9 @@ class winset {
     public boolean equals(Object o) {
         if (o instanceof winset) {
             winset toCompare = (winset) o;
-            if (this.getSlot(0) == toCompare.getSlot(0) && this.getSlot(1) == toCompare.getSlot(1) && this.getSlot(2) == toCompare.getSlot(2))
+            if (this.getSlot(0) == toCompare.getSlot(0) && this.getSlot(1) == toCompare.getSlot(1) && this.getSlot(2) == toCompare.getSlot(2)) {
                 return true;
+            }
         }
         return false;
     }

@@ -39,6 +39,14 @@ public class MainActivity extends AppCompatActivity {
             //get the tag(string) of the clicked button
             String Buttontag = (String) (SlotButton.getTag());
             //convert into an int
+
+            //checks if a win move has already been done and exit the method and show a winning toast
+            if (Game.Board.winmove) {
+                showtoast(Game.Board.Winmsg + ",Restart Game.", 1000);
+                return;
+            }
+
+
             int slot = Integer.valueOf(Buttontag);
             Log.v("slotclicking", " slot cliked:" + slot);
 
@@ -47,14 +55,19 @@ public class MainActivity extends AppCompatActivity {
                 if (Game.Board.FillSlot(slot, 2)) {
                     ImageButton Btn = (ImageButton) SlotButton;
                     Btn.setImageResource(R.drawable.circle);
-                    //Trigger the pc to play
-                    int pcmove = Game.Board.PcFillslot();
-                    //check if the pc move went throuh and was done
-                    if (pcmove != -1) {
-                        ButtonImageSet(pcmove, R.drawable.close);
-                    }
-                    // Game.Board.Lastmoveplayer=1;
 
+
+                    //Trigger the pc to play if the games has not yet been won
+                    if (!Game.Board.winmove) {
+                        int pcmove = Game.Board.PcFillslot();
+                        //check if the pc move went throuh and was done
+                        if (pcmove != -1) {
+                            ButtonImageSet(pcmove, R.drawable.close);
+                        }
+                        // Game.Board.Lastmoveplayer=1;
+                    } else {
+                        showtoast(Game.Board.Winmsg, 1000);
+                    }
 
                 }
             } else {
