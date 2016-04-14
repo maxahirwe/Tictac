@@ -12,6 +12,17 @@ public class TicTac3Board {
 
     //represents the 9 slots that comply a 3*3 Tic Tac Toe game
     TicTac3ArrayList<slot> slots;
+
+    // virtual slots for different states
+    //each state has a possibility either win/draw/lose
+    //ArrayList<TicTac3ArrayList<Simulatedslot>> states;
+
+    //loop through all states and set marks
+    //loop through all states and pick the one with the highest marks
+    //In order to achieve this we will subtract the depth, that is the number of turns, or recursions,
+    // from the end game score, the more turns the lower the score, the fewer turns the higher the score
+
+
     static private Random randomizer = new Random();
 
     static public int PcPlayerID = 1;
@@ -20,6 +31,14 @@ public class TicTac3Board {
 
 
     public TicTac3Board() {
+        winset set1 = new winset(4, 2, 3);
+        winset set2 = new winset(4, 2, 6);
+
+        Log.v("setchecking:", "true:set1=set2 ?" + String.valueOf(set1.equals(set2)));
+        set2 = new winset(4, 2, 3);
+        Log.v("setchecking:", "false:equal set1=set2 ?" + String.valueOf(set1.equals(set2)));
+
+
         //Instantiate the game slots
         slots = new TicTac3ArrayList<slot>();
         //fill the TicTac3ArrayList with empty slots
@@ -56,6 +75,10 @@ public class TicTac3Board {
 
             Log.v("move", "Player:" + playername + " move to slot(" + (slotnumber + 1) + ") Succeeded");
             Log.v("slotdata", "Slot(" + (slotnumber + 1) + ") " + slot.toString());
+
+            //Wining checking
+
+            IsItaWinMove(slotnumber);
             return true;
 
         } else {
@@ -81,6 +104,94 @@ public class TicTac3Board {
         } else {
             return -1;
         }
+    }
+
+
+    /**
+     *
+     * funtion to be called after each slot is filled to asses if its a winning move
+     */
+    public boolean IsItaWinMove(int index) {
+
+        //1 horizontal 1  123
+        //2 horizantal 2  456
+        //3 horizantal 2  789
+        //4 vertical 1    147
+        //5 vertical 2    258
+        //6 vertical 3    369
+        //7 diagonal 1    159
+        //8 diagonal 2    357
+
+
+        ArrayList<winset> winsets = new ArrayList<winset>();
+
+        for (int i = 0; i < 9; i++) {
+            winsets.add(new winset(1, 2, 3));
+            winsets.add(new winset(4, 5, 6));
+            winsets.add(new winset(7, 8, 9));
+            winsets.add(new winset(1, 4, 7));
+            winsets.add(new winset(2, 5, 8));
+            winsets.add(new winset(3, 6, 9));
+            winsets.add(new winset(1, 5, 9));
+            winsets.add(new winset(3, 5, 7));
+        }
+
+        ///loop trough all the winsets and identify a match
+        for (winset winingset : winsets) {
+            //loop for both players
+            for (int player = 1; player <= 2; player++) {
+                //Log.v("winchecking", "Slot(" + (index + 1) + ") " + "player " + player);
+                //for the i value
+                for (int i = 0; i < 9; i++) {
+                    //for the x value
+                    for (int x = 0; x < 9; x++) {
+                        //check if the combination is filled by the same player
+                        if (this.IsslotfilledByplayer(i, player) && this.IsslotfilledByplayer(x, player)
+                                && this.IsslotfilledByplayer(index, player) && i != index && x != index && x != i) {
+
+                            //add one since stored winsets data starting from 1
+
+                            winset toCompare1 = new winset(i + 1, x + 1, index + 1);
+                            winset toCompare2 = new winset(x + 1, i + 1, index + 1);
+                            winset toCompare3 = new winset(index + 1, x + 1, i + 1);
+
+                            //Log.v("Gamestatus", "combination found ("+toCompare1.toString() +") ("+toCompare2.toString()+") ("+toCompare3.toString() +")  player" +player);
+                            //check if its a wining set
+                            if (winingset.equals(toCompare1) || winingset.equals(toCompare2) || winingset.equals(toCompare3)) {
+                                Log.v("Gamestatus", "Game won by (" + player + ") on slot (" + (index + 1) + ")");
+
+                                return true;
+
+                            }
+                        }
+                    }
+                }
+                //Log.v("Gamestatus","Game not won by ("+player+") on slot"+(index + 1) +" Keep going...");
+            }
+        }
+
+        return false;
+
+    }
+
+
+    public boolean IsslotfilledByplayer(int index, int player) {
+        //check if the passed in player is occupying the slot of the provided index
+
+        if (slots.get(index).getOccupant() == null) {
+
+            return false;
+
+        }
+
+        if (slots.get(index).getOccupant() == player) {
+
+            return true;
+
+
+        }
+
+        return false;
     }
 
 
@@ -175,4 +286,47 @@ class TicTac3ArrayList<object> extends ArrayList<object> {
     }
 
 
+}
+
+/**
+ * hols the combination of 3 slots ,candidating for a game win
+ */
+class winset {
+
+    ArrayList<Integer> slotset = new ArrayList<Integer>();
+
+    public winset(int a, int b, int c) {
+        slotset.add(a);
+        slotset.add(b);
+        slotset.add(c);
+    }
+
+
+    public ArrayList<Integer> getSlotset() {
+        return slotset;
+    }
+
+    public void setSlotset(ArrayList<Integer> slotset) {
+        this.slotset = slotset;
+    }
+
+    public int getSlot(int index) {
+        return slotset.get(index);
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof winset) {
+            winset toCompare = (winset) o;
+            if (this.getSlot(0) == toCompare.getSlot(0) && this.getSlot(1) == toCompare.getSlot(1) && this.getSlot(2) == toCompare.getSlot(2))
+                return true;
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return "winset{" + "slotset=" + slotset + '}';
+    }
 }

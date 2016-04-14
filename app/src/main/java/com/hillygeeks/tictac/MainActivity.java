@@ -2,6 +2,7 @@ package com.hillygeeks.tictac;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -57,13 +58,13 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             } else {
-                Toast.makeText(this, "Hey,Chill..Just start a new game", Toast.LENGTH_SHORT).show();
+                showtoast("Hey,Chill..Just start a new game", 500);
                 Log.v("Gamestatus:", "Board Full");
             }
 
         } else {
-            Log.v("GameStatus:", "Not Started.");
-            Toast.makeText(this, "Hey,Chill..First Select who plays first from the buttons at the bottom", Toast.LENGTH_SHORT).show();
+            Log.v("Gamestatus:", "Not Started.");
+            showtoast("Hey,Chill..First Select who plays first from the buttons at the bottom", 1000);
         }
 
     }
@@ -99,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
                         Log.v("1stPlayer:", "USER");
                         Game = new TicTacGame();
                         clearlayout();
-                        Toast.makeText(ctx, "You Start!", Toast.LENGTH_SHORT).show();
+                        showtoast("You start!", 500);
                         txtmsg.setText("Go,Play");
 
                         break;
@@ -110,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
                         Log.v("1stPlayer:", "COMPUTER");
                         Game = new TicTacGame();
                         clearlayout();
-                        Toast.makeText(ctx, "I Start!", Toast.LENGTH_SHORT).show();
+                        showtoast("I start!", 500);
                         txtmsg.setText("Go,Play");
                         //play the first move and mark the slot on the GUI
                         int btn_slotid = Game.Board.MakeFirstPCRandomMove();
@@ -139,6 +140,22 @@ public class MainActivity extends AppCompatActivity {
         Button.setImageResource(drawable);
         return Button;
 
+    }
+
+
+    /**
+     * show a toast that appears on a precise speed over milliseconds
+     */
+    public void showtoast(String msg, int Milliseconds) {
+        final Toast toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
+        toast.show();
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                toast.cancel();
+            }
+        }, Milliseconds);
     }
 
 
