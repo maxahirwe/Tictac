@@ -19,6 +19,7 @@ public class TicTac3Board {
     public String Winmsg;
     public winset Winset;
     static public int gamestatus;
+
     // virtual slots for different states
     //each state has a possibility either win/draw/lose
     //ArrayList<TicTac3ArrayList<Simulatedslot>> states;
@@ -164,6 +165,16 @@ public class TicTac3Board {
                                 this.winmove = true;
                                 this.gamestatus = player;
                                 this.Lastmoveplayer = 0;
+
+                                if (player == PcPlayerID) {
+                                    TicTacGame.PCplayerwins += 1;
+
+                                } else if (player == HumanPlayerID) {
+                                    TicTacGame.Humanplarerwins += 1;
+                                }
+
+
+
                                 return true;
 
 

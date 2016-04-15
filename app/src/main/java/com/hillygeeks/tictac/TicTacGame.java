@@ -10,10 +10,12 @@ import java.util.ArrayList;
  */
 public class TicTacGame {
 
-
+    static public int PCplayerwins = 0;
+    static public int Humanplarerwins = 0;
     public static TicTac3Board Board;
     static public int PcPlayerID = 1;
     static public int HumanPlayerID = 2;
+    static public int FirstPlayer;
     TicTac3Board virtualboard;
 
     //receives a boolean that specify who plays first between the human player and the human player

@@ -8,12 +8,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-
 
     private TicTacGame Game;
 
@@ -43,7 +43,11 @@ public class MainActivity extends AppCompatActivity {
             //checks if a win move has already been done and exit the method and show a winning toast
             if (Game.Board.winmove) {
                 showtoast(Game.Board.Winmsg + ",Restart Game.", 1000);
+                UpdateScoreTxt();
                 return;
+            } else if (Game.Board.isBoardFull()) {
+                showtoast("Maan.. I Hate Draws!,Restart Game.", 1000);
+
             }
 
 
@@ -56,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
                     ImageButton Btn = (ImageButton) SlotButton;
                     Btn.setImageResource(R.drawable.circle);
 
-                    //Trigger the pc to play if the games has not yet been won
+                    //Trigger the pc to play if the game has not yet been won
                     if (!Game.Board.winmove) {
                         int pcmove = Game.Pcplay();
 
@@ -66,13 +70,18 @@ public class MainActivity extends AppCompatActivity {
                             Game.Board.FillSlot(pcmove, 1);
                             ButtonImageSet(pcmove, R.drawable.close);
                         }
-                        //if the Winmove variable changes after the pc played means the game is over the pc won
+                        //if the Winmove variable changes after the pc played means the game is over the pc won show the toast
                         if (Game.Board.winmove) {
                             showtoast(Game.Board.Winmsg, 1000);
+                            UpdateScoreTxt();
+
+                        } else if (Game.Board.isBoardFull()) {
+                            showtoast("Maan.. I Hate Draws!,Restart Game.", 1000);
                         }
                         // Game.Board.Lastmoveplayer=1;
                     } else {
                         showtoast(Game.Board.Winmsg, 1000);
+                        UpdateScoreTxt();
                     }
 
                 }
@@ -99,9 +108,6 @@ public class MainActivity extends AppCompatActivity {
         //clear out the view
         this.clearlayout();
         ImageButton Button = (ImageButton) PlayButton;
-
-        final TextView txtmsg = (TextView) findViewById(R.id.msgtxt);
-
         Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,8 +126,6 @@ public class MainActivity extends AppCompatActivity {
                         Game = new TicTacGame();
                         clearlayout();
                         showtoast("You start!", 500);
-                        txtmsg.setText("Go,Play");
-
                         break;
                     }
 
@@ -131,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
                         Game = new TicTacGame();
                         clearlayout();
                         showtoast("I start!", 500);
-                        txtmsg.setText("Go,Play");
+
                         //play the first move and mark the slot on the GUI;
 
 
@@ -182,6 +186,15 @@ public class MainActivity extends AppCompatActivity {
         }, Milliseconds);
     }
 
+
+    /**
+     * change score
+     */
+    public void UpdateScoreTxt() {
+        TextView score = (TextView) findViewById(R.id.msgtxt);
+        String msg = Game.PCplayerwins + "-" + Game.Humanplarerwins;
+        score.setText(msg);
+    }
 
     /**
      * clear out all buttons from icons
