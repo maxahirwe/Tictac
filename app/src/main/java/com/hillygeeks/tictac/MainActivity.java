@@ -1,18 +1,21 @@
 package com.hillygeeks.tictac;
 
+import android.app.ActionBar;
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-
 
     private TicTacGame Game;
 
@@ -20,6 +23,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        ImageButton btn = (ImageButton) findViewById(R.id.btn_slot5);
+        btn.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                showtoast("Designed Beautifully,Insanely,intelligently By Max Ahirwe(Tmaxletitgo@gmail.com)", 2500);
+                return true;
+
+            }
+        });
 
     }
 
@@ -38,6 +53,18 @@ public class MainActivity extends AppCompatActivity {
             //get the tag(string) of the clicked button
             String Buttontag = (String) (SlotButton.getTag());
             //convert into an int
+
+            //checks if a win move has already been done and exit the method and show a winning toast
+            if (Game.Board.winmove) {
+                showtoast(Game.Board.Winmsg + ",Restart Game.", 1000);
+                UpdateScoreTxt();
+                return;
+            } else if (Game.Board.isBoardFull()) {
+                showtoast("Maan.. I Hate Draws!,Restart Game.", 1000);
+
+            }
+
+
             int slot = Integer.valueOf(Buttontag);
             Log.v("slotclicking", " slot cliked:" + slot);
 
@@ -46,24 +73,40 @@ public class MainActivity extends AppCompatActivity {
                 if (Game.Board.FillSlot(slot, 2)) {
                     ImageButton Btn = (ImageButton) SlotButton;
                     Btn.setImageResource(R.drawable.circle);
-                    //Trigger the pc to play
-                    int pcmove = Game.Board.PcFillslot();
-                    //check if the pc move went throuh and was done
-                    if (pcmove != -1) {
-                        ButtonImageSet(pcmove, R.drawable.close);
-                    }
-                    // Game.Board.Lastmoveplayer=1;
 
+                    //Trigger the pc to play if the game has not yet been won
+                    if (!Game.Board.winmove) {
+                        int pcmove = Game.Pcplay();
+
+                        Log.v("Pcmove", "PC attempting move=>" + pcmove);
+                        //check if the pc move went throuh and was done
+                        if (pcmove != -1) {
+                            Game.Board.FillSlot(pcmove, 1);
+                            ButtonImageSet(pcmove, R.drawable.close);
+                        }
+                        //if the Winmove variable changes after the pc played means the game is over the pc won show the toast
+                        if (Game.Board.winmove) {
+                            showtoast(Game.Board.Winmsg, 1000);
+                            UpdateScoreTxt();
+
+                        } else if (Game.Board.isBoardFull()) {
+                            showtoast("Maan.. I Hate Draws!,Restart Game.", 1000);
+                        }
+                        // Game.Board.Lastmoveplayer=1;
+                    } else {
+                        showtoast(Game.Board.Winmsg, 1000);
+                        UpdateScoreTxt();
+                    }
 
                 }
             } else {
-                Toast.makeText(this, "Hey,Chill..Just start a new game", Toast.LENGTH_SHORT).show();
+                showtoast("Hey,Chill..Just start a new game", 500);
                 Log.v("Gamestatus:", "Board Full");
             }
 
         } else {
-            Log.v("GameStatus:", "Not Started.");
-            Toast.makeText(this, "Hey,Chill..First Select who plays first from the buttons at the bottom", Toast.LENGTH_SHORT).show();
+            Log.v("Gamestatus:", "Not Started.");
+            showtoast("Hey,Chill..First Select who plays first from the buttons at the bottom", 1000);
         }
 
     }
@@ -79,9 +122,6 @@ public class MainActivity extends AppCompatActivity {
         //clear out the view
         this.clearlayout();
         ImageButton Button = (ImageButton) PlayButton;
-
-        final TextView txtmsg = (TextView) findViewById(R.id.msgtxt);
-
         Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,9 +139,7 @@ public class MainActivity extends AppCompatActivity {
                         Log.v("1stPlayer:", "USER");
                         Game = new TicTacGame();
                         clearlayout();
-                        Toast.makeText(ctx, "You Start!", Toast.LENGTH_SHORT).show();
-                        txtmsg.setText("Go,Play");
-
+                        showtoast("You start!", 500);
                         break;
                     }
 
@@ -110,10 +148,13 @@ public class MainActivity extends AppCompatActivity {
                         Log.v("1stPlayer:", "COMPUTER");
                         Game = new TicTacGame();
                         clearlayout();
-                        Toast.makeText(ctx, "I Start!", Toast.LENGTH_SHORT).show();
-                        txtmsg.setText("Go,Play");
-                        //play the first move and mark the slot on the GUI
-                        int btn_slotid = Game.Board.MakeFirstPCRandomMove();
+                        showtoast("I start!", 500);
+
+                        //play the first move and mark the slot on the GUI;
+
+
+                        //int btn_slotid = Game.Board.MakeFirstPCRandomMove();
+                        int btn_slotid = Game.MakeFirstPCRandomMove();
                         if (btn_slotid != -1) {
                             ButtonImageSet(btn_slotid, R.drawable.close);
                         }
@@ -133,6 +174,8 @@ public class MainActivity extends AppCompatActivity {
 
     public ImageButton ButtonImageSet(int viewid, int drawable) {
 
+        Log.v("setdrawableid", String.valueOf(viewid));
+
         String ViewID = "btn_slot" + viewid;
         int id = getResources().getIdentifier(ViewID, "id", this.getPackageName());
         ImageButton Button = (ImageButton) findViewById(id);
@@ -141,6 +184,31 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    /**
+     * show a toast that appears on a precise speed over milliseconds
+     */
+    public void showtoast(String msg, int Milliseconds) {
+        final Toast toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
+        toast.show();
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                toast.cancel();
+            }
+        }, Milliseconds);
+    }
+
+
+    /**
+     * change score
+     */
+    public void UpdateScoreTxt() {
+        TextView score = (TextView) findViewById(R.id.msgtxt);
+        String msg = Game.PCplayerwins + "-" + Game.Humanplarerwins;
+        score.setText(msg);
+    }
 
     /**
      * clear out all buttons from icons
