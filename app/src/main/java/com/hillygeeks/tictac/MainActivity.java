@@ -56,13 +56,19 @@ public class MainActivity extends AppCompatActivity {
                     ImageButton Btn = (ImageButton) SlotButton;
                     Btn.setImageResource(R.drawable.circle);
 
-
                     //Trigger the pc to play if the games has not yet been won
                     if (!Game.Board.winmove) {
-                        int pcmove = Game.Board.PcFillslot();
+                        int pcmove = Game.Pcplay();
+
+                        Log.v("Pcmove", "PC attempting move=>" + pcmove);
                         //check if the pc move went throuh and was done
                         if (pcmove != -1) {
+                            Game.Board.FillSlot(pcmove, 1);
                             ButtonImageSet(pcmove, R.drawable.close);
+                        }
+                        //if the Winmove variable changes after the pc played means the game is over the pc won
+                        if (Game.Board.winmove) {
+                            showtoast(Game.Board.Winmsg, 1000);
                         }
                         // Game.Board.Lastmoveplayer=1;
                     } else {
@@ -126,8 +132,11 @@ public class MainActivity extends AppCompatActivity {
                         clearlayout();
                         showtoast("I start!", 500);
                         txtmsg.setText("Go,Play");
-                        //play the first move and mark the slot on the GUI
-                        int btn_slotid = Game.Board.MakeFirstPCRandomMove();
+                        //play the first move and mark the slot on the GUI;
+
+
+                        //int btn_slotid = Game.Board.MakeFirstPCRandomMove();
+                        int btn_slotid = Game.MakeFirstPCRandomMove();
                         if (btn_slotid != -1) {
                             ButtonImageSet(btn_slotid, R.drawable.close);
                         }
@@ -146,6 +155,8 @@ public class MainActivity extends AppCompatActivity {
      */
 
     public ImageButton ButtonImageSet(int viewid, int drawable) {
+
+        Log.v("setdrawableid", String.valueOf(viewid));
 
         String ViewID = "btn_slot" + viewid;
         int id = getResources().getIdentifier(ViewID, "id", this.getPackageName());

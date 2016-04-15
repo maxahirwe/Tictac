@@ -2,10 +2,12 @@
   <dictionary name="User">
     <words>
       <w>accross</w>
+      <w>arraylits</w>
       <w>identifify</w>
       <w>lastmoveplayer</w>
       <w>tacgame</w>
       <w>thierry</w>
+      <w>winmove</w>
     </words>
   </dictionary>
 </component>

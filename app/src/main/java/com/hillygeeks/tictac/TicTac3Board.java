@@ -18,6 +18,7 @@ public class TicTac3Board {
     public boolean winmove;
     public String Winmsg;
     public winset Winset;
+    static public int gamestatus;
     // virtual slots for different states
     //each state has a possibility either win/draw/lose
     //ArrayList<TicTac3ArrayList<Simulatedslot>> states;
@@ -69,7 +70,7 @@ public class TicTac3Board {
         //if(!slot.isOccupied() && this.Lastmoveplayer!=player){
 
         //if slot is not occupied and no player has won yet
-        if (!slot.isOccupied() && !this.winmove) {
+        if (slot.isEmpty() && !this.winmove) {
             slot.setOccupant(new Integer(player));
             this.Lastmoveplayer = player;
 
@@ -84,40 +85,26 @@ public class TicTac3Board {
 
             Log.v("move", "Player:" + playername + " move to slot(" + (slotnumber + 1) + ") Failed");
             Log.v("slotdata", "Slot(" + (slotnumber + 1) + ") " + slot.toString());
+            Log.v("lastmoveplayer", String.valueOf(this.Lastmoveplayer));
             return false;
         }
     }
 
     /**
-     * method make the first pc automated move
-     */
-    public int MakeFirstPCRandomMove() {
-        int Randomslot = Randomslot();
-        //make the move,2 means its the pc playing Lastmoveplayer=null &&
-        if (this.FillSlot(Randomslot, 1)) {
-            Lastmoveplayer = 1;
-            return Randomslot;
-
-        } else {
-            return -1;
-        }
-    }
-
-
-    /**
      * method to be called after each slot is filled to asses if its a winning move
-     *   Possible wins(considering a 3 way vice versa side switch)
-     *   -------------
-     *  n*     Orientation   num    combinations
-     *  1       horizontal    1        123
-     *  2       horizontal    2        456
-     *  3       horizontal    3        789
-     *  4       vertical      1        147
-     *  5       vertical      2        258
-     *  6       vertical      3        369
-     *  7       diagonal      1        159
-     *  8       diagonal      2        357
+     * Possible wins(considering a 3 way vice versa side switch)
+     * -------------
+     * n*     Orientation   num    combinations
+     * 1       horizontal    1        123
+     * 2       horizontal    2        456
+     * 3       horizontal    3        789
+     * 4       vertical      1        147
+     * 5       vertical      2        258
+     * 6       vertical      3        369
+     * 7       diagonal      1        159
+     * 8       diagonal      2        357
      */
+
     public boolean IsItaWinMove(int index) {
 
         //Possinle wins/
@@ -135,8 +122,8 @@ public class TicTac3Board {
         winsets.add(new winset(3, 4, 5));
         winsets.add(new winset(6, 7, 8));
         winsets.add(new winset(0, 3, 6));
-            winsets.add(new winset(1, 4, 7));
-            winsets.add(new winset(2, 5, 8));
+        winsets.add(new winset(1, 4, 7));
+        winsets.add(new winset(2, 5, 8));
         winsets.add(new winset(0, 4, 8));
         winsets.add(new winset(2, 4, 6));
 
@@ -175,6 +162,8 @@ public class TicTac3Board {
                                 this.Winmsg = Playername + " Won!";
                                 this.Winset = toCompare1;
                                 this.winmove = true;
+                                this.gamestatus = player;
+                                this.Lastmoveplayer = 0;
                                 return true;
 
 
@@ -185,10 +174,78 @@ public class TicTac3Board {
                 //Log.v("Gamestatus","Game not won by ("+player+") on slot"+(index + 1) +" Keep going...");
             }
         }
+        this.gamestatus = -1;
+        return false;
+
+    }
+
+
+    /**
+     * checks if a move will result in a win
+     */
+
+    public boolean IsItaWinMove(int index, int player) {
+
+        //Possinle wins/
+        //1 horizontal 1  12
+        //2 horizantal 2  45
+        //3 horizantal 2  78
+        //4 vertical 1    147
+        //5 vertical 2    258
+        //6 vertical 3    369
+        //7 diagonal 1    159
+        //8 diagonal 2    357
+
+        Log.v("isitawinmove", "index" + index + " Player:" + player);
+
+        ArrayList<winset> winsets = new ArrayList<winset>();
+        winsets.add(new winset(0, 1, 2));
+        winsets.add(new winset(3, 4, 5));
+        winsets.add(new winset(6, 7, 8));
+        winsets.add(new winset(0, 3, 6));
+        winsets.add(new winset(1, 4, 7));
+        winsets.add(new winset(2, 5, 8));
+        winsets.add(new winset(0, 4, 8));
+        winsets.add(new winset(2, 4, 6));
+
+        ///loop trough all the winsets and identify a match
+        for (winset winingset : winsets) {
+            //Log.v("winchecking", "Slot(" + (index + 1) + ") " + "player " + player);
+            //for the i value
+            for (int i = 0; i < 9; i++) {
+                //for the x value
+                for (int x = 0; x < 9; x++) {
+                    //check if the combination is filled by the same player
+                    if (this.IsslotfilledByplayer(i, player) && this.IsslotfilledByplayer(x, player)
+                            && i != index && x != index && x != i) {
+
+                        winset toCompare1 = new winset(i, x, index);
+                        winset toCompare2 = new winset(x, i, index);
+                        winset toCompare3 = new winset(index, x, i);
+                        winset toCompare4 = new winset(index, i, x);
+                        winset toCompare5 = new winset(i, index, x);
+                        winset toCompare6 = new winset(x, index, i);
+
+                        Log.v("Gamestatus", "Player:" + player);
+                        Log.v("Gamestatus", "combination found (" + toCompare1.toString() + ") (" + toCompare2.toString() + ") (" + toCompare3.toString() + ")");
+                        Log.v("Gamestatus", "combination found (" + toCompare4.toString() + ") (" + toCompare5.toString() + ") (" + toCompare6.toString() + ")");
+                        //check if its a wining set
+                        if ((winingset.equals(toCompare1)) | (winingset.equals(toCompare2)) | (winingset.equals(toCompare3)) |
+                                (winingset.equals(toCompare4)) | (winingset.equals(toCompare5)) | (winingset.equals(toCompare6))
+                                ) {
+                            Log.v("Gamestatus", "combination to win found");
+                            //set win msg and the winset for later use
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
 
         return false;
 
     }
+
 
     /**
      * checks whether a slot is filled by a certain player at a specific slot
@@ -214,37 +271,27 @@ public class TicTac3Board {
         return false;
     }
 
-
     /**
-     * Artificial Intelligence core heart of the game
+     * returns empty slots
      */
-    public int PcFillslot() {
-        int Randomslot = Randomslot();
-        boolean isBoardfull = isBoardFull();
+    public ArrayList<slot> getEmptySlots() {
 
-        //if the game board is not full keep looping until random slot is free ,fill it and quit the loop and return the slot number
-        while (!isBoardfull) {
-            if (this.FillSlot(Randomslot, 1)) {
-                Lastmoveplayer = 1;
-                return Randomslot;
+        ArrayList<slot> EmptySlots = new ArrayList<slot>();
+        for (slot s : this.slots) {
+            if (s.isEmpty()) {
+                EmptySlots.add(s);
             }
-            Randomslot = Randomslot();
         }
-        return -1;
+        return EmptySlots;
     }
+
 
     /**
      * @return true id board is full and false if it's not
      */
     public boolean isBoardFull() {
 
-        for (slot s : slots) {
-            //if one of the slots is empty means there is still an empty slot
-            if (!s.isOccupied()) {
-                return false;
-            }
-        }
-        return true;
+        return this.getEmptySlots().size() == 0;
 
     }
 
@@ -256,7 +303,9 @@ public class TicTac3Board {
         Integer max = new Integer(9);
         // nextInt is normally exclusive of the top value,
         // so add 1 to make it inclusive
+
         int RandomSlot = randomizer.nextInt((max - min) + 1) + min;
+
 
         return RandomSlot;
     }

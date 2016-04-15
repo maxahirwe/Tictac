@@ -8,12 +8,21 @@ public class slot {
     //a slot can either be empty or taken. when the occupant field is null that  means the slot is emptyi,
     // if the occupant field is set means the slot is taken
     private Integer Occupant;
+    private int position;
+    private static int counter = 0;
+
 
     /**
      * constructor
      */
     public slot() {
         this.Occupant = null;
+        this.position = counter;
+        if (this.counter == 8) {
+            this.counter = 0;
+        } else {
+            this.counter++;
+        }
     }
 
 
@@ -22,15 +31,22 @@ public class slot {
      */
     public slot(Integer occupant) {
         this.Occupant = new Integer(occupant);
+
+        this.position = counter;
+        if (this.counter == 8) {
+            this.counter = 0;
+        } else {
+            this.counter++;
+        }
     }
 
 
     /**
-     * @return if the slot is occupied or not
+     * @return if the slot is empty or not
      */
-    public boolean isOccupied() {
+    public boolean isEmpty() {
 
-        return this.Occupant != null;
+        return this.Occupant == null;
     }
 
     /**
@@ -49,8 +65,19 @@ public class slot {
     }
 
 
+    /**
+     * get position
+     *
+     * @return
+     */
+    public int getPosition() {
+        return position;
+    }
+
     @Override
     public String toString() {
-        return "slot{" + "Occupant=" + Occupant + '}';
+        return "slot{" + "Occupant=" + Occupant + ", position=" + position +'}';
     }
+
+
 }
