@@ -1,5 +1,5 @@
 # Tictac
-##An android based 3*3 TIC TAC game developed as a challenge from Mindvalley Firm.
+##An Android Game 3*3 TIC TAC game developed as a challenge from Mindvalley Firm.
 
 ###Description
 Targets android versionn above=>android ice cream sandwitch 5 
