@@ -44,7 +44,7 @@
                     android:id="@+id/btn_slot1"
                     android:tag="1"
                     android:onClick="Slotclick"
-                    android:src="@drawable/empty" />
+                    android:src="@drawable/circle" />
 
                 <ImageButton
                     android:layout_width="match_parent"
@@ -66,7 +66,7 @@
                     android:id="@+id/btn_slot3"
                     android:tag="3"
                     android:onClick="Slotclick"
-                    android:src="@drawable/empty" />
+                    android:src="@drawable/circle" />
 
 
             </TableRow>
@@ -97,7 +97,7 @@
                     android:id="@+id/btn_slot5"
                     android:tag="5"
                     android:onClick="Slotclick"
-                    android:src="@drawable/empty" />
+                    android:src="@drawable/circle" />
 
                 <ImageButton
                     android:layout_width="match_parent"
@@ -126,7 +126,7 @@
                     android:id="@+id/btn_slot7"
                     android:tag="7"
                     android:onClick="Slotclick"
-                    android:src="@drawable/empty" />
+                    android:src="@drawable/close" />
 
                 <ImageButton
                     android:layout_width="match_parent"
@@ -137,7 +137,7 @@
                     android:id="@+id/btn_slot8"
                     android:tag="8"
                     android:onClick="Slotclick"
-                    android:src="@drawable/empty" />
+                    android:src="@drawable/circle" />
 
                 <ImageButton
                     android:layout_width="match_parent"
@@ -148,7 +148,7 @@
                     android:id="@+id/btn_slot9"
                     android:tag="9"
                     android:onClick="Slotclick"
-                    android:src="@drawable/empty" />
+                    android:src="@drawable/close" />
             </TableRow>
 
         </TableLayout>

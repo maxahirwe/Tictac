@@ -1,6 +1,8 @@
 package com.hillygeeks.tictac;
 
+import android.app.ActionBar;
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +23,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        ImageButton btn = (ImageButton) findViewById(R.id.btn_slot5);
+        btn.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                showtoast("Designed Beautifully,Insanely,intelligently By Max Ahirwe(Tmaxletitgo@gmail.com)", 2500);
+                return true;
+
+            }
+        });
 
     }
 
